@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[300],{2898:(D,u,t)=>{t.r(u),t.d(u,{AuthLayoutModule:()=>M});var n=t(9808),l=t(7420),E=t(9182),_=t(3075),a=t(5e3);let M=(()=>{class o{}return o.\u0275fac=function(A){return new(A||o)},o.\u0275mod=a.oAB({type:o}),o.\u0275inj=a.cJS({imports:[[n.ez,l.k,E.IJ,_.u5,_.UX]]}),o})()}}]);

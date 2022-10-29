@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
-import{UserGuardGuard} from "./guards/user-guard.guard"
-
-
 
 const routes: Routes =[
     {

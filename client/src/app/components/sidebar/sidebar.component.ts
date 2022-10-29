@@ -43,10 +43,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.menuItems =  ROUTES.filter((menuItem:any) =>{
-         console.log("menuItem", menuItem)
-
+        //  console.log("menuItem", menuItem)
          return menuItem
-
     } );
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;

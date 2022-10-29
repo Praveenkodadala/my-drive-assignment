@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(private router: Router, private httpService: HttpService) {
     let token = localStorage.getItem('auth-token');
-    let menudata = localStorage.getItem('menuData');
+   
     if (token) {
      this.httpService.token = localStorage.getItem('auth-token');
       if (localStorage.getItem('userData')) {

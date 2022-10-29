@@ -5,6 +5,10 @@ import { MydriveDashboardComponent } from './mydrive-dashboard/mydrive-dashboard
 import { MydriveFolderViewComponent } from './mydrive-folder-view/mydrive-folder-view.component';
 import { RouterModule, Routes } from '@angular/router'
 import { MyDriveComponent } from './my-drive.component'
+import { MateralModule } from '../../materal.module'
+import { AntdModule } from '../../antd.module'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+
 
 const routes: Routes = [
   {
@@ -40,7 +44,12 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MateralModule,
+     AntdModule,
     RouterModule.forChild(routes),
+
   ]
 })
 export class MyDriveModule { }

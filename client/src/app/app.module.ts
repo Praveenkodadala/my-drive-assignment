@@ -11,8 +11,15 @@ import { AuthLayoutRoutingModule } from './layouts/auth-layout/auth-layout-routi
 import { ComponentsModule } from './components/components.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
-import { OtpNewpasswordComponent } from './pages/otp-newpassword/otp-newpassword.component'
-import { UserGuardGuard } from './guards/user-guard.guard';
+import { OtpNewpasswordComponent } from './pages/otp-newpassword/otp-newpassword.component';
+
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n'
+
+registerLocaleData(en);
+
 
 
 @NgModule({
@@ -34,7 +41,7 @@ import { UserGuardGuard } from './guards/user-guard.guard';
     ReactiveFormsModule,
    
   ],
-   providers: [UserGuardGuard],
+   providers: [{ provide: NZ_I18N, useValue: en_US }],
 
   bootstrap: [AppComponent]
 })

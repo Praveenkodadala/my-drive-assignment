@@ -6,9 +6,6 @@ const nodemailer = require("nodemailer");
 
 
 
-
-
-
 exports.user_register = async (req, res) => {
     // console.log("req.body user_register ", req.body);
   const user = await userModel.findOne({ email: req.body.email });

@@ -20,8 +20,7 @@ export class HttpService {
   //new format
   public token: any = false;
   public userData: any = false;
-  public playingRole: any = false;
-  public menuData: any = []
+ 
 
   public doHttp(request: any) {
     console.log('request in http ', request);
@@ -37,7 +36,7 @@ export class HttpService {
         )
         .set('pragma', 'no-cache')
         .set('Authorization', this.token)
-        .set('Role', `${this.playingRole}`);
+     
     } else {
       options = new HttpHeaders()
         .set('Content-Type', 'application/json')
@@ -87,7 +86,7 @@ export class HttpService {
         )
         .set('pragma', 'no-cache')
         .set('Authorization', `Bearer ${this.token}`)
-        .set('Role', `${this.playingRole}`);
+     
     } else {
       options = new HttpHeaders()
         .set('pragma', 'no-cache')

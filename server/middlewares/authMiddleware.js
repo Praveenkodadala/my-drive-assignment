@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 module.exports.userTokenCheck = function (req, res, next) {
   // console.log("req", req.headers.authorization)
 
+
   const token = req.headers.authorization // token has userid as payload
   if (!token) return res.status(401).send("Access denied");
   

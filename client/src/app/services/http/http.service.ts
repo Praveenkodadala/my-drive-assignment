@@ -22,7 +22,7 @@ export class HttpService {
   public userData: any = false;
  
 
-  public doHttp(request: any) {
+  public doHttp(request:any) {
     console.log('request in http ', request);
     let options;
     if (this.token) {
@@ -75,7 +75,8 @@ export class HttpService {
     }
   }
 
-  public doHttp1(request: any) {
+  public doHttp1(request:any) {
+    console.log('request in http1 ', request);
     let options;
     if (this.token) {
       options = new HttpHeaders()
@@ -85,7 +86,7 @@ export class HttpService {
           'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
         )
         .set('pragma', 'no-cache')
-        .set('Authorization', `Bearer ${this.token}`)
+        .set('Authorization', this.token)
      
     } else {
       options = new HttpHeaders()

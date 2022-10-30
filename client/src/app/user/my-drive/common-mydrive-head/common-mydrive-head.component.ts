@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { HttpService } from '../../../../app/services/http/http.service'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
@@ -11,16 +11,20 @@ import { NzNotificationService } from 'ng-zorro-antd/notification'
  
 })
 export class CommonMydriveHeadComponent implements OnInit {
+  @Output() newItemEvent = new EventEmitter<string>()
+
+
+
   isSpinning = false
-  userData: any = {}
   addFolderForm: any
   addDocForm: any
   nested: boolean = false
   folder_id:any
   fileToUpload: any
-  
   isVisibleFolder = false
   isVisibleDoc = false
+  loginUserID;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -29,8 +33,10 @@ export class CommonMydriveHeadComponent implements OnInit {
     private notification: NzNotificationService,
 
   ) {
+
+   this.loginUserID = JSON.parse(this.services.userData)
    
-    this.userData = JSON.parse(this.services?.userData)
+    console.log("this.loginUserID", this.loginUserID)
     console.log("route.snapshot.url[0].path", route.snapshot.url)
 
     if (route.snapshot.url[0].path == 'folder') {
@@ -43,6 +49,8 @@ export class CommonMydriveHeadComponent implements OnInit {
    }
 
    ngOnInit(): void {
+   
+
     this.addFolderForm = this.fb.group({
       nested: [false],
       name: [null],
@@ -52,16 +60,13 @@ export class CommonMydriveHeadComponent implements OnInit {
       file: [''],
       nested: [false],
       nested_inside: [''],
-      type: ['Not Applicable'],
-      drivedoc: [''],
-      originalName: [''],
-      mydrive: [false],
+  
     })
   }
 
   handleFileInput(event:any) {
   //  console.log("event.target.files", event.target.files)
-    this.fileToUpload = event.target.files
+    this.fileToUpload = event.target.files[0]
     console.log('this.fileToUpload', this.fileToUpload)
   }
 
@@ -91,7 +96,7 @@ export class CommonMydriveHeadComponent implements OnInit {
         if (res.status) {
           this.notification.create('success', 'Success!', res.msg, { nzPlacement: 'bottomRight' })
           this.addFolderForm.reset()
-         // this.newItemEvent.emit()
+          this.newItemEvent.emit()
           this.isVisibleFolder = false
         }
       },
@@ -115,46 +120,48 @@ export class CommonMydriveHeadComponent implements OnInit {
   okDoc(): void {
 
     console.log("this.addFolderForm.value", this.addFolderForm.value)
+ 
 
-    // if (this.nested == true) {
-    //   this.addDocForm.patchValue({ nested: true })
-    //   this.addDocForm.value.nested_inside = this.folder_id
-    // }
-    // if (this.nested == false) {
-    //   this.addDocForm.patchValue({ nested: false })
-    // }
+    if (this.nested == true) {
+      this.addDocForm.patchValue({ nested: true })
+      this.addDocForm.value.nested_inside = this.folder_id
+    }
+    if (this.nested == false) {
+      this.addDocForm.patchValue({ nested: false })
+    }
 
-    // const formData = new FormData()
-    // formData.append('file', this.fileToUpload)
-    // formData.append('creator', this.userData.userId)
-    // formData.append('nested', this.addDocForm.value.nested)
+    const formData = new FormData()
+    formData.append('file', this.fileToUpload)
+    formData.append('creator', this.loginUserID)
+    formData.append('nested', this.addDocForm.value.nested)
 
-    // if (this.nested == true) {
-    //   formData.append('nested_inside', this.addDocForm.value.nested_inside)
-    // }
-    // console.log("this.addFolderForm.value", this.addFolderForm.value)
+    if (this.nested == true) {
+      formData.append('nested_inside', this.addDocForm.value.nested_inside)
+    }
+    console.log("this.addFolderForm.value", this.addFolderForm.value)
 
-    // const request = {
-    //   params: formData,
-    //   method: 'POST',
-    //   action_url: 'mydrive/addDocument',
-    // }
-    // this.services.doHttp1(request)?.subscribe(
-    //   (res: any) => {
-    //     if (res.status) {
-    //       this.notification.create('success', 'Success!', res.msg, { nzPlacement: 'bottomRight' })
-    //       this.isVisibleDoc = false
-    //       this.addDocForm.reset()
-    //       //this.newItemEvent.emit()
-    //     }
-    //   },
-    //   (error: any) => {
-    //     this.notification.create('error', 'Failed', error.error.msg, {
-    //       nzPlacement: 'bottomRight',
-    //     })
-    //     // console.log('error', error)
-    //   },
-    // )
+    const request = {
+      params: formData,
+      method: 'POST',
+      action_url: 'mydrive/addDocument',
+    }
+
+    this.services.doHttp1(request)?.subscribe(
+      (res: any) => {
+        if (res.status) {
+          this.notification.create('success', 'Success!', res.msg, { nzPlacement: 'bottomRight' })
+          this.isVisibleDoc = false
+          this.addDocForm.reset()
+          //this.newItemEvent.emit()
+        }
+      },
+      (error: any) => {
+        this.notification.create('error', 'Failed', error.error.msg, {
+          nzPlacement: 'bottomRight',
+        })
+        // console.log('error', error)
+      },
+    )
 
 
   }

@@ -120,3 +120,43 @@ exports.get_documents = async (req, res) => {
     });
 };
 
+exports.get_nested_folders = async (req, res, next) => {
+  console.log("req.query", req.query)
+  var user_id = req.auth_user.user_id;
+  const folder_id = req.query.folder_id
+
+  folderModel.find({
+      nested: true,
+      nested_inside: folder_id,
+      deleted: false
+  }).populate("creator").populate("nested_inside").exec((err, data) => {
+      if (err) {
+          console.log(err)
+          res.status(500).json({
+              "msg": "Database error occured"
+          })
+      }
+      Folderdata = data
+      next()
+  })
+}
+
+exports.get_nested_documents = async (req, res, next) => {
+  console.log("req.query", req.query)
+  var user_id = req.auth_user.user_id;
+  const folder_id = req.query.folder_id
+  documentModel.find({
+      nested: true,
+      nested_inside: folder_id,
+      deleted: false
+  }).populate("creator").populate("nested_inside").exec((err, data) => {
+      if (err) {
+          console.log(err)
+          res.status(500).json({
+              "msg": "Database error occured"
+          })
+      }
+      documentData = data
+      next()
+  })
+}

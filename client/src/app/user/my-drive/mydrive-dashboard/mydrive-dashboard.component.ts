@@ -90,7 +90,7 @@ export class MydriveDashboardComponent implements OnInit {
 
           this.listOfDisplayData = [...this.listOfData]
 
-          console.log('listOfDisplayData', this.listOfDisplayData)
+          console.log('listOfDisplayData', this.listOfDisplayData)  //main data to disply in table
    
         }
       },
@@ -102,7 +102,7 @@ export class MydriveDashboardComponent implements OnInit {
 
   redirectFolder(folder_id:any) {
     console.log('folder_id', folder_id)
-    this.router.navigate(['/user/mydrive/folder/'], {
+    this.router.navigate(['/user/my-drive/folder'], {
       queryParams: { folderId: folder_id, refresh: new Date().getTime() },
     })
   }
@@ -132,27 +132,7 @@ export class MydriveDashboardComponent implements OnInit {
   //   )
   // }
 
-  // download(path, name) {
-  //   // this.isSpinning = true
-  //   console.log('download path', path)
-  //   const request = {
-  //     params: { path: path },
-  //     method: 'POST',
-  //     action_url: 'mydrive/downloadDoc',
-  //   }
-  //   this.services.doHttp1(request)?.subscribe(
-  //     (res: any) => {
-  //       if (res.status) {
-  //         this.isSpinning = false
-  //       }
-  //     },
-  //     (error: any) => {
-  //       //  this.spinner.hide()
-  //       // this.notification.notify('error', 'internal server error')
-  //       console.log(error)
-  //     },
-  //   )
-  // }
+
 
   handleCancel(): void {
     console.log('Button cancel clicked!')

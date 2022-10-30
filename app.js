@@ -6,7 +6,7 @@ const path = require("path");
 var bodyParser = require("body-parser");
 var fileUpload = require("express-fileupload");
 var morgan = require('morgan')
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
@@ -61,15 +61,15 @@ app.use(
 
 app.options("*", cors());
 
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      "default-src":['*'],
-      "img-src":['*', "'self'", 'data:', 'https:'],
-      "script-src":["'self'","'unsafe-inline'"]
-    },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       "default-src":['*'],
+//       "img-src":['*', "'self'", 'data:', 'https:'],
+//       "script-src":["'self'","'unsafe-inline'"]
+//     },
+//   })
+// );
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

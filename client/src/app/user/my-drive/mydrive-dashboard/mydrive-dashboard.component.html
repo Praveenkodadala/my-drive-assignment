@@ -1,4 +1,4 @@
-<!-- <p>icons works!</p> -->
+
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
       <div class="header-body">
@@ -15,7 +15,8 @@
       <div class="col">
         <div class="card shadow">
           <div class="card-header bg-transparent">
-            <h3 class="mb-0 d-flex justify-content-center"> <p > Welcome to My Drive Dashboard </p></h3>
+            <h3 class="mb-0 d-flex justify-content-center"> <p > Welcome to My Drive  </p></h3>
+            <span>Root Folders and Files</span>
           </div>
           <div class="card">
        
@@ -23,6 +24,7 @@
           
             <div class="card-body">
               <app-common-mydrive-head (newItemEvent)="updateDashboard()"></app-common-mydrive-head>
+              
               <nz-table #basicTable [nzData]="listOfDisplayData" class="vb__utils__table mb-4">
                 <thead>
                   <tr>
@@ -33,7 +35,6 @@
                     </th>
                     <th>Created By</th>
                     <th>View</th>
-                    <th>Download</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -61,7 +62,6 @@
                         </a>
                       </span>
                     </td>
-                    <td><a  *ngIf="data.doc" ><i class="fa fa-download" aria-hidden="true"></i></a></td>
                     <td>
                       <a  nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
                         (click)="dropDownIdfun(data._id, data.doc, data.name)">

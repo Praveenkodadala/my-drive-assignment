@@ -8,7 +8,9 @@ router.post("/addFolder", token_handler.userTokenCheck, mydrive_controller.addFo
 router.post("/addDocument", token_handler.userTokenCheck, mydrive_controller.addDocument )
 router.get("/get_folders",  token_handler.userTokenCheck, mydrive_controller.get_folders)
 router.get("/get_documents",  token_handler.userTokenCheck, mydrive_controller.get_documents)
-
+router.get('/folderItems', token_handler.userTokenCheck, mydrive_controller.get_nested_folders, mydrive_controller.get_nested_documents, (req, res) =>{
+    res.status(200).json({ 'status': true, 'data': {'folders': Folderdata, documents: documentData} });
+})
 
 
 module.exports = router;

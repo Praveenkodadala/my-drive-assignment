@@ -8,7 +8,7 @@ import { MyDriveComponent } from './my-drive.component'
 import { MateralModule } from '../../materal.module'
 import { AntdModule } from '../../antd.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
+ import { SafePipeModule } from 'safe-pipe'
 
 const routes: Routes = [
   {
@@ -48,6 +48,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MateralModule,
      AntdModule,
+     SafePipeModule,
     RouterModule.forChild(routes),
 
   ]

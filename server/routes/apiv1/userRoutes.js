@@ -7,6 +7,9 @@ const token_handler = require("../../middlewares/authMiddleware")
 router.post("/user_register", user_controller.user_register)
 router.post("/user_login", user_controller.user_login)
 
+router.post("/forget_password",  user_controller.forget_password)
+ router.post("/change_password_by_otp",  user_controller.change_password_by_otp)
+
 
 //user-profile component
 router.get("/get_user_profile", token_handler.userTokenCheck, user_controller.get_user_profile)

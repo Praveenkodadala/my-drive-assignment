@@ -6,7 +6,6 @@ const path = require("path");
 var bodyParser = require("body-parser");
 var fileUpload = require("express-fileupload");
 var morgan = require('morgan')
-// const helmet = require("helmet");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,22 +13,21 @@ const routes = require("./server/routes/routes");
 require("dotenv").config();
 const fs = require("fs");
 
+
 //view engine setup
 app.set("views", path.join(__dirname, "server/views"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
 
-
-//  console.log("__dirname",  __dirname);
-
 app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 },
 }));
 
+
+//  console.log("__dirname",  __dirname);
 global.paths = {
   UPLOAD: __dirname + "/uploads/",
 };
-
 // console.log("global.paths", global.paths)
 
 
@@ -61,15 +59,7 @@ app.use(
 
 app.options("*", cors());
 
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       "default-src":['*'],
-//       "img-src":['*', "'self'", 'data:', 'https:'],
-//       "script-src":["'self'","'unsafe-inline'"]
-//     },
-//   })
-// );
+
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -78,9 +68,8 @@ app.use(express.static(path.join(__dirname, "./client/dist/client")));
 app.use("/api", routes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads/")));
 app.get("/", function (req, res) {
-  res.send("<h3>Server working fine.</h3>");
+  res.send("Server is working fine.");
 });
-
 
 
 

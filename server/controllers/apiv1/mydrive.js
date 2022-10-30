@@ -34,8 +34,8 @@ exports.addFolder = async (req, res) => {
 
 
 exports.addDocument = async (req, res) => {
-  console.log("req.body", req.body)
-  console.log("req.files", req.files)
+  // console.log("req.body", req.body)
+  // console.log("req.files", req.files)
   var user_id = req.auth_user.user_id;
   
 
@@ -159,4 +159,243 @@ exports.get_nested_documents = async (req, res, next) => {
       documentData = data
       next()
   })
+}
+
+exports.delete_file_atDash = async (req, res) => {
+  console.log("req.body.id to delete", req.body.id)
+  var user_id = req.auth_user.user_id;
+  documentModel.updateMany(
+    {
+      $and: [
+        {
+          creator: user_id,
+        },
+        {
+          $or: [
+            {
+              _id: req.body.id,
+            },
+            {
+              nested_inside: req.body.id,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      $set: {
+        deleted: true,
+      },
+    },
+    (err, data) => {
+      if (err) {
+        res.status(500).json({
+          msg: "Database error occured",
+        });
+      } else {
+        //find all nested folders of selected folder and then delete
+        folderModel
+          .find({
+            $and: [
+              {
+                creator: user_id,
+              },
+              {
+                $or: [
+                  {
+                    _id: req.body.id,
+                  },
+                  {
+                    nested_inside: req.body.id,
+                  },
+                ],
+              },
+            ],
+          })
+          .exec(async (err1, data1) => {
+            if (err1) {
+              console.log("err1", err1);
+            } else {
+              let resultArr = [];
+              for (let folder of data1) {
+                if (folder.nested == true) {
+                  resultArr.push(folder);
+                  for (fol of resultArr) {
+                    let nestedFolders = await folderModel.find({
+                      nested: true,
+                      deleted: false,
+                      nested_inside: fol._id,
+                    });
+                    nestedFolders.forEach((element) => {
+                      resultArr.push(element);
+                    });
+                  }
+                  resultArr.forEach((el) => {
+                    folderModel.findOneAndUpdate(
+                      {
+                        _id: el._id,
+                      },
+                      {
+                        $set: {
+                          deleted: true,
+                        },
+                      },
+                      (err2, data2) => {
+                        if (err2) {
+                          // console.log(err2)
+                          res.status(500).json({
+                            msg: "Database error occured",
+                          });
+                        } else {
+                          // console.log("data2", data2);
+                        }
+                      }
+                    );
+                  });
+                }
+                if (folder.nested == false) {
+                  folderModel.findOneAndUpdate(
+                    {
+                      _id: folder._id,
+                    },
+                    {
+                      $set: {
+                        deleted: true,
+                      },
+                    },
+                    (err3, data3) => {
+                      if (err3) {
+                        // console.log(err3)
+                        res.status(500).json({
+                          msg: "Database error occured",
+                        });
+                      } else {
+                        //  console.log("data3", data3);
+                      }
+                    }
+                  );
+                }
+              }
+            }
+          });
+
+        res.status(200).json({
+          status: true,
+          msg: "Deleted",
+        });
+      }
+    }
+  );
+};
+
+exports.delete_file_atNestedComponent = async (req, res) => {
+  var user_id = req.auth_user.user_id;
+  documentModel.updateMany(
+    {
+      $and: [
+        {
+          creator: user_id,
+        },
+        {
+          $or: [
+            {
+              _id: req.body.id,
+            },
+            {
+              nested_inside: req.body.id,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      $set: {
+        deleted: true,
+      },
+    },
+    (err, data) => {
+      if (err) {
+        // console.log(err)
+        res.status(500).json({
+          msg: "Database error occured",
+        });
+      } else {
+        //find all nested folders of selected folder and then delete
+        //start
+        folderModel
+          .find({
+            $and: [
+              {
+                creator: user_id,
+              },
+              {
+                $or: [
+                  {
+                    _id: req.body.id,
+                  },
+                  {
+                    nested_inside: req.body.id,
+                  },
+                ],
+              },
+            ],
+          })
+          .exec(async (err1, data1) => {
+            if (err1) {
+              // console.log("err1", err1)
+            } else {
+              let resultArr = [];
+              for (let folder of data1) {
+                if (folder.nested == true) {
+                  resultArr.push(folder);
+                  for (fol of resultArr) {
+                    let nestedFolders = await folderModel.find({
+                      nested: true,
+                      deleted: false,
+                      nested_inside: fol._id,
+                    });
+                    nestedFolders.forEach((element) => {
+                      resultArr.push(element);
+                    });
+                  }
+                  resultArr.forEach(async (el) => {
+                    let deleteNestedFolders =
+                      await folderModel.findOneAndUpdate(
+                        {
+                          _id: el._id,
+                        },
+                        {
+                          $set: {
+                            deleted: true,
+                          },
+                        }
+                      );
+                  });
+                }
+              }
+              res.status(200).json({
+                status: true,
+                msg: "Deleted",
+              });
+            }
+          });
+      }
+    }
+  );
+};
+
+exports.folderDetails = async(req, res)=>{
+  // console.log('req.query folderDetails', req.query)
+  const folderId = req.query.folder_id
+  let folderDetails = await folderModel.findById(req.query.folder_id)
+  if(!folderDetails) {
+    console.log("error in fetching folder details")
+  }else{
+    res.status(200).json({
+      status: true,
+       data:folderDetails
+    });
+  }
+ 
+
 }

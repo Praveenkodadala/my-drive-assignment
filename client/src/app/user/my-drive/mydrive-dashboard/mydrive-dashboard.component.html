@@ -17,11 +17,131 @@
           <div class="card-header bg-transparent">
             <h3 class="mb-0 d-flex justify-content-center"> <p > Welcome to My Drive Dashboard </p></h3>
           </div>
-          <div class="card-body">
-           <!-- Dashboard -->
-           <app-common-mydrive-head></app-common-mydrive-head>
+          <div class="card">
+       
+  
+          
+            <div class="card-body">
+              <app-common-mydrive-head (newItemEvent)="updateDashboard()"></app-common-mydrive-head>
+              <nz-table #basicTable [nzData]="listOfDisplayData" class="vb__utils__table mb-4">
+                <thead>
+                  <tr>
+                    <th>SNo</th>
+                    <th >
+                      Name
+                   
+                    </th>
+                    <th>Created By</th>
+                    <th>View</th>
+                    <th>Download</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data;  let i=index">
+                    <td>{{i+1}}</td>
+                    <td>
+                      <span *ngIf="data.doc">
+                        <i hidden class="fe fe-folder"></i> {{ data.name}}
+                      </span>
+                      <span *ngIf="!data.doc">
+                        <i class="fe fe-folder"> </i> {{ data.name}}
+                      </span>
+                    </td>
+                    <td>{{data.creator.email}}</td>
+                    <td>
+                      <span *ngIf="data.doc">
+                        <a class="btn btn-sm btn-light mr-2">
+                          Document View
+                        </a>
+                      </span>
+                      <span *ngIf="!data.doc">
+                        <a (click)="redirectFolder(data._id)" class="btn btn-sm btn-light mr-2">
+                          Folder View
+                        </a>
+                      </span>
+                    </td>
+                    <td><a  *ngIf="data.doc" ><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                    <td>
+                      <a  nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                        (click)="dropDownIdfun(data._id, data.doc, data.name)">
+                        <i nz-icon nzType="more" nzTheme="outline"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+          
+            </div>
         
-          </div>
+          <nz-modal [(nzVisible)]="isVisible" nzTitle={{DocNameOnPopUp}}  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+            [nzStyle]="{ top: '20px'}" nzWidth="1300px">
+            <ng-container *nzModalContent>
+              <!-- <iframe style="border:1px solid black;" width="100%" height="500px"
+                [src]="viewUrl | safe : 'resourceUrl'"></iframe> -->
+            </ng-container>
+          </nz-modal>
+  
+          <nz-modal [(nzVisible)]="isVisibleAction" [nzTitle]="modalTitleAction" [nzContent]="modalContentAction"
+            [nzFooter]="modalFooterAction" (nzOnCancel)="handleCancelAction()"   [nzStyle]="{ top: '20px'}" nzWidth="400px">
+            <ng-template #modalTitleAction>Change Folder Name</ng-template>
+  
+            <ng-template #modalContentAction>
+             
+                <form action="" [formGroup]="addFolderRename">
+                  <div class="parent">
+                    <mat-form-field appearance="outline" class="col-md-10" >
+                      <mat-label>Folder Name</mat-label>
+                      <input matInput formControlName="name" required />
+                    </mat-form-field>
+                  </div>
+                </form>
+            
+            
+            </ng-template>
+  
+            <ng-template #modalFooterAction>
+              <button nz-button nzType="default" (click)="handleCancelAction()">Cancel</button>
+              <button nz-button nzType="primary" (click)="submitFolderRename()" [disabled]="addFolderRename.invalid"
+               >Submit</button>
+            </ng-template>
+          </nz-modal>
+  
+          <nz-modal [(nzVisible)]="isVisiblMoveDocToFolders" [nzTitle]="modalTitleMoveDocToFolders"
+            [nzContent]="modalContentMoveDocToFolders" [nzFooter]="modalFooterMoveDocToFolders"
+            (nzOnCancel)="CancelMoveDocToFolders()">
+            <ng-template #modalTitleMoveDocToFolders>Select a folder</ng-template>
+  
+            <ng-template #modalContentMoveDocToFolders>
+              <a *ngFor="let folder of folderDataforDoc " (click)="selectedFolderForMove(folder._id)" data-dismiss="modal"
+                style="color: grey;" class="list-group-item list-group-item-action">{{folder.name}}</a>
+            </ng-template>
+  
+            <ng-template #modalFooterMoveDocToFolders>
+              <button nz-button nzType="default" (click)="CancelMoveDocToFolders()">Cancel</button>
+              <!-- <button nz-button nzType="primary" (click)="submitFolderRename()" [nzLoading]="isConfirmLoading">Submit</button> -->
+            </ng-template>
+          </nz-modal>
+  
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <div>
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item [hidden]="doc" style="width: 150px;"><a (click)="showModalAction(dropDownId, folderNameToRename)"> Rename</a>
+                </li>
+                <li nz-menu-item [hidden]="doc" style="width: 150px;"><a (click)="moveFolderTo(dropDownId)"> Move </a>
+                </li>
+                <li nz-menu-item [hidden]="!doc" style="width: 150px;"> <a (click)="moveDocTo(dropDownId)"> Move To</a>
+                </li>
+                <li nz-menu-item nzDanger style="width: 150px;">
+                  <a nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="delete(dropDownId)"
+                    (nzOnCancel)="cancelDelete()" nzPopconfirmPlacement="top">
+                    Delete
+                  </a></li>
+              </ul>
+            </div>
+  
+          </nz-dropdown-menu>
+        </div>
         </div>
       </div>
     </div>

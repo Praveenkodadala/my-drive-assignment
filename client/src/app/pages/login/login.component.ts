@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('auth-token', res.token);
           this.httpService.token = res.token;
 
-          this.userData = res.userData
+          this.userData = res['userData']
           this.httpService.userData = this.userData
           this.httpService.setItem('userData', JSON.stringify(this.userData))
           this.router.navigate(['user']);

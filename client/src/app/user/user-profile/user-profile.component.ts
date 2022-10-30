@@ -17,7 +17,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  loginUserID;
+  
   userInfo: any;
   userProfileForm: any;
   changePasswordForm:any
@@ -25,8 +25,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private fb: FormBuilder,
      private httpService: HttpService,
      private modalService: NgbModal) {
-    this.loginUserID = JSON.parse(this.httpService.userData)
-    console.log('this.userData in profile', this.loginUserID);
+  
   }
 
   ngOnInit(): void {

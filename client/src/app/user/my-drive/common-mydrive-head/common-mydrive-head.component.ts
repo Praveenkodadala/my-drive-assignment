@@ -14,7 +14,7 @@ export class CommonMydriveHeadComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string>()
 
 
-
+  userData: any = {}
   isSpinning = false
   addFolderForm: any
   addDocForm: any
@@ -23,7 +23,7 @@ export class CommonMydriveHeadComponent implements OnInit {
   fileToUpload: any
   isVisibleFolder = false
   isVisibleDoc = false
-  loginUserID;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -34,9 +34,9 @@ export class CommonMydriveHeadComponent implements OnInit {
 
   ) {
 
-   this.loginUserID = JSON.parse(this.services.userData)
-   
-    console.log("this.loginUserID", this.loginUserID)
+    this.userData = this.services.userData
+    console.log("this.userData", this.userData)
+
     console.log("route.snapshot.url[0].path", route.snapshot.url)
 
     if (route.snapshot.url[0].path == 'folder') {
@@ -96,7 +96,7 @@ export class CommonMydriveHeadComponent implements OnInit {
         if (res.status) {
           this.notification.create('success', 'Success!', res.msg, { nzPlacement: 'bottomRight' })
           this.addFolderForm.reset()
-          this.newItemEvent.emit()
+          //this.newItemEvent.emit()
           this.isVisibleFolder = false
         }
       },
@@ -132,7 +132,7 @@ export class CommonMydriveHeadComponent implements OnInit {
 
     const formData = new FormData()
     formData.append('file', this.fileToUpload)
-    formData.append('creator', this.loginUserID)
+    formData.append('creator', this.userData.userId)
     formData.append('nested', this.addDocForm.value.nested)
 
     if (this.nested == true) {

@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const otpModel = require("../../models/userOtpModel");
 const nodemailer = require("nodemailer");
 
+//400 Bad Request · 401 Unauthorized · 403 Forbidden · 404 Not Found 
 
 
 exports.user_register = async (req, res) => {
@@ -46,10 +47,20 @@ exports.user_login = async (req, res) => {
     };
     const token = jwt.sign(token_data, process.env.JWT_PRIVATEKEY);
     // res.header("auth-token", token).send(token);
+
+    var output = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName,
+      userId: user._id,
+      email: user.email,
+      // data: user
+    };
+    console.log("output", output)
     res.status(200).json({
       status: true,
       token: token,
-      userData: user._id
+      userData: output
     });
   } else {
     res.status(401).json({ msg: "Invalid credentials" });
@@ -58,7 +69,7 @@ exports.user_login = async (req, res) => {
 
 exports.get_user_profile = async (req, res) => {
   //console.log("get_user_profile");
-  const user_id = req.auth_user.userId;
+  const user_id = req.auth_user.user_id;
   const user = await userModel.findById(user_id);
  // console.log("userData", user);
   if (!user) return res.status(500).json({ msg: "Database error occured" });
@@ -66,7 +77,7 @@ exports.get_user_profile = async (req, res) => {
 };
 
 exports.update_user_profile = async (req, res) => {
-  const user_id = req.auth_user.userId;
+  const user_id = req.auth_user.user_id;
   // console.log("req.body", req.body);
   userModel.updateOne(
     { _id: user_id },
@@ -90,7 +101,7 @@ exports.update_user_profile = async (req, res) => {
 
 exports.update_user_password = async (req, res) => {
  // console.log("req.body", req.body);
-  const user_id = req.auth_user.userId;
+  const user_id = req.auth_user.user_id;
   var user = await userModel.findById(user_id);
   if (!user) return res.status(500).json({ msg: "Database error occured" });
   const validPass = await bcrypt.compare(req.body.oldpassword, user.password);

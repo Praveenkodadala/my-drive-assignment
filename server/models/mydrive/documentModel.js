@@ -12,9 +12,7 @@ var documentSchema = new Schema({
     path: {
         type: String
     },
-    originalFilePath:{       // this is for .doc and ppt and etc files  other than pdf png jpg
-        type: String 
-    },
+   
     nested: {
         type: Boolean
     },
@@ -22,9 +20,7 @@ var documentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'myDriveFolders'
     },
-    checksum: {
-        type: String
-    },
+  
     deleted: {
         type: Boolean,
         default: false

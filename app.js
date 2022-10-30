@@ -19,17 +19,18 @@ app.set("views", path.join(__dirname, "server/views"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
 
-app.use(
-  fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-  })
-);
 
-//MD
-global.locations = {};
+//  console.log("__dirname",  __dirname);
+
+app.use(fileUpload({
+  limits: { fileSize: 5 * 1024 * 1024 },
+}));
+
 global.paths = {
   UPLOAD: __dirname + "/uploads/",
 };
+
+// console.log("global.paths", global.paths)
 
 
 

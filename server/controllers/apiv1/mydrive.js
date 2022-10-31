@@ -28,8 +28,8 @@ exports.addFolder = async (req, res) => {
 };
 
 exports.addDocument = async (req, res) => {
-  // console.log("req.body", req.body)
-  // console.log("req.files", req.files)
+  console.log("req.body", req.body)
+  console.log("req.files", req.files)
   var user_id = req.auth_user.user_id;
 
   var file = {};

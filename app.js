@@ -19,9 +19,7 @@ app.set("views", path.join(__dirname, "server/views"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
 
-app.use(fileUpload({
-  limits: { fileSize: 5 * 1024 * 1024 },
-}));
+
 
 
 //  console.log("__dirname",  __dirname);

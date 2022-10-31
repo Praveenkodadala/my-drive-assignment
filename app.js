@@ -14,6 +14,7 @@ require("dotenv").config();
 const fs = require("fs");
 
 
+
 //view engine setup
 app.set("views", path.join(__dirname, "server/views"));
 app.engine("html", require("ejs").renderFile);
@@ -69,6 +70,12 @@ app.use("/api", routes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads/")));
 app.get("/", function (req, res) {
   res.send("Server is working fine.");
+});
+
+app.get("*", function (req, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/dist/client/index.html")
+  );
 });
 
 

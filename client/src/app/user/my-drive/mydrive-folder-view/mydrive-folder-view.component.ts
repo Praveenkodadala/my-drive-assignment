@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { HttpService } from '../../../../app/services/http/http.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { userEnvironment } from '../../../../environments/environment'
+
 
 @Component({
   selector: 'app-mydrive-folder-view',
@@ -79,30 +81,12 @@ export class MydriveFolderViewComponent implements OnInit {
     });
   }
 
-  getSignedUrl(path: any) {
-    console.log('docPath', path);
-
-    const request = {
-      params: { path: path },
-      method: 'POST',
-      action_url: 'mydrive/get_signed_url',
-    };
-
-    this.services.doHttp(request)?.subscribe(
-      (res: any) => {
-        if (res.status) {
-          this.viewUrl = res.signed_url;
-          // console.log('this.viewUrl', this.viewUrl)
-          if (this.viewUrl) {
-            this.isVisible = true;
-          }
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+  viewDoc(path:any) {
+    console.log('docPath', path)
+    this.viewUrl = userEnvironment.baseURL + "/"+ path
+    console.log(" this.viewUrl",  this.viewUrl)
+       this.isVisible = true
+ }
 
   handleCancel(): void {
     this.isVisible = false;
@@ -117,7 +101,7 @@ export class MydriveFolderViewComponent implements OnInit {
     const request = {
       params: { id: id },
       method: 'POST',
-      action_url: 'mydrive/delete_file_nested',
+      action_url: 'mydrive/delete_file_or_doc',
     };
 
     this.services.doHttp(request)?.subscribe(

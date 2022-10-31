@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpService } from '../../../../app/services/http/http.service'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
+import { userEnvironment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-mydrive-dashboard',
@@ -94,26 +95,11 @@ export class MydriveDashboardComponent implements OnInit {
   }
 
 
-  getSignedUrl(path:any) {
+  viewDoc(path:any) {
      console.log('docPath', path)
-    const request = {
-      params: { path: path },
-      method: 'POST',
-      action_url: 'mydrive/get_signed_url',
-    }
-  
-    // this.services.doHttp(request)?.subscribe(
-    //   (res: any) => {
-    //     if (res.status) {
-    //       this.viewUrl = res.signed_url
-    //       console.log('this.viewUrl', this.viewUrl)
-    //       if (this.viewUrl) {
-    //         this.isVisible = true
-    //       }
-    //     }
-    //   },
-    //   error => {},
-    // )
+     this.viewUrl = userEnvironment.baseURL + "/"+ path
+     console.log(" this.viewUrl",  this.viewUrl)
+        this.isVisible = true
   }
 
 
@@ -130,7 +116,7 @@ export class MydriveDashboardComponent implements OnInit {
     const request = {
       params: { id: id },
       method: 'POST',
-      action_url: 'mydrive/delete_file_atDash',
+      action_url: 'mydrive/delete_file_or_doc',
     }
     this.services.doHttp(request)?.subscribe(
       (res: any) => {

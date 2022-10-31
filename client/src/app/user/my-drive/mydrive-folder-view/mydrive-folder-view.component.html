@@ -53,7 +53,7 @@
                   <td>{{ i + 1 }}</td>
                   <td>
                     <span *ngIf="data.doc">
-                      <mat-icon> insert_drive_file</mat-icon> {{ data.name }}
+                      <mat-icon>panorama</mat-icon> {{ data.name }}
                     </span>
                     <span *ngIf="!data.doc">
                       <mat-icon>folder</mat-icon>  {{ data.name }}
@@ -64,7 +64,7 @@
                     <span *ngIf="data.doc">
                       <a
                         class="btn btn-sm btn-light mr-2"
-                        (click)="getSignedUrl(data.path)"
+                        (click)="viewDoc(data.path)"
                       >
                         Document View
                       </a>
@@ -102,8 +102,8 @@
               nzWidth="1300px"
             >
               <ng-container *nzModalContent>
-                <!-- <iframe style="border:1px solid black;" width="100%" height="500px"
-                    [src]="viewUrl | safe : 'resourceUrl'"></iframe> -->
+                <iframe style="border:1px solid black;" width="100%" height="500px"
+                    [src]="viewUrl | safe : 'resourceUrl'"></iframe>
               </ng-container>
             </nz-modal>
           </div>

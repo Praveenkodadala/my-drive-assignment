@@ -47,7 +47,7 @@
           <div class="parent">
             <mat-form-field appearance="outline" class="col-md-10">
               <mat-label>Select File</mat-label>
-              <ngx-mat-file-input formControlName="file" (change)="handleFileInput($event)"
+              <ngx-mat-file-input formControlName="file" (change)="handleFileInput($event)" [accept]='"image/*,.pdf"'
                 placeholder="Basic outline placeholder"></ngx-mat-file-input>
               <mat-icon matSuffix>folder</mat-icon>
             </mat-form-field>

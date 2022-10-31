@@ -12,8 +12,8 @@ router.get('/folderItems', token_handler.userTokenCheck, mydrive_controller.get_
     res.status(200).json({ 'status': true, 'data': {'folders': Folderdata, documents: documentData} });
 })
 
-router.post("/delete_file_atDash", token_handler.userTokenCheck, mydrive_controller.delete_file_atDash )
-router.post("/delete_file_nested", token_handler.userTokenCheck, mydrive_controller.delete_file_atNestedComponent)
+router.post("/delete_file_or_doc", token_handler.userTokenCheck, mydrive_controller.delete_file_or_doc )
+
 
 router.get("/folderDetails",  token_handler.userTokenCheck, mydrive_controller.folderDetails)
 

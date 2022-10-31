@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://hidden-oasis-49366.herokuapp.com", 
+      "target": "http://localhost:3000", 
       "secure": false
     }
   }

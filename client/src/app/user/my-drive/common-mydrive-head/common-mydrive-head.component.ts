@@ -132,6 +132,7 @@ export class CommonMydriveHeadComponent implements OnInit {
       formData.append('nested_inside', this.addDocForm.value.nested_inside);
     }
     
+  console.log(this.addDocForm.value)  
 
     const request = {
       params: formData,

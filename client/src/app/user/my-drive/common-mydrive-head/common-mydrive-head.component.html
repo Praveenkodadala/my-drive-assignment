@@ -22,7 +22,7 @@
           <div class="parent">
             <mat-form-field appearance="outline" class="col-md-10" style="padding-left: 5px; padding-right: 5px">
               <mat-label>Folder Name</mat-label>
-              <input matInput formControlName="name" />
+              <input required matInput formControlName="name" />
             </mat-form-field>
           </div>
         </form>
@@ -31,7 +31,7 @@
 
     <ng-template #modalFooterFolder>
       <button nz-button nzType="default" (click)="cancelFolder()">Cancel</button>
-      <button nz-button nzType="primary" (click)="okFolder()" >Submit</button>
+      <button nz-button nzType="primary" [disabled]="!addFolderForm.valid" (click)="okFolder()" >Submit</button>
     </ng-template>
   </nz-modal>
 
@@ -47,7 +47,7 @@
           <div class="parent">
             <mat-form-field appearance="outline" class="col-md-10">
               <mat-label>Select File</mat-label>
-              <ngx-mat-file-input formControlName="file" (change)="handleFileInput($event)" [accept]='"image/*,.pdf"'
+              <ngx-mat-file-input formControlName="file" (change)="handleFileInput($event)" [accept]='"image/*,.pdf"' required
                 placeholder="Basic outline placeholder"></ngx-mat-file-input>
               <mat-icon matSuffix>folder</mat-icon>
             </mat-form-field>
@@ -59,7 +59,7 @@
 
     <ng-template #modalFooterDoc>
       <button nz-button nzType="default" (click)="cancelDoc()">Cancel</button>
-      <button nz-button nzType="primary" (click)="okDoc()" >Submit</button>
+      <button nz-button nzType="primary" [disabled]="!addDocForm.valid" (click)="okDoc()" >Submit</button>
     </ng-template>
   </nz-modal>
 

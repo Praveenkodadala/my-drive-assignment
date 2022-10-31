@@ -56,8 +56,8 @@ export class MydriveFolderViewComponent implements OnInit {
     this.services.doHttp1(request)?.subscribe(
       (res: any) => {
         if (res.status) {
-          this.folders = res['data'].folders;
-          this.documents = res['data'].documents;
+          this.folders = res['data'].folders.reverse()
+          this.documents = res['data'].documents.reverse()
           this.listOfData = this.folders.concat(this.documents);
           this.documents.forEach((doc: any) => {
             doc.doc = 'doc';

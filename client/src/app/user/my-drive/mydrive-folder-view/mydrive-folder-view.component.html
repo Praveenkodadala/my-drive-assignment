@@ -53,10 +53,10 @@
                   <td>{{ i + 1 }}</td>
                   <td>
                     <span *ngIf="data.doc">
-                      <i hidden class="fe fe-folder"></i> {{ data.name }}
+                      <mat-icon> insert_drive_file</mat-icon> {{ data.name }}
                     </span>
                     <span *ngIf="!data.doc">
-                      <i class="fe fe-folder"> </i> {{ data.name }}
+                      <mat-icon>folder</mat-icon>  {{ data.name }}
                     </span>
                   </td>
                   <td>{{ data.creator.email }}</td>

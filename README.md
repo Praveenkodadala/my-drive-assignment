@@ -6,7 +6,7 @@
 
 
 # front end
- * cd/client -->  ng serve
+ * cd /client -->  ng serve
 
 
 # back end
@@ -15,18 +15,30 @@
 
 
 ## heroku link
+* Register user and login
 https://hidden-oasis-49366.herokuapp.com   
 
-* Register user and login
 
 
+
+
+
+
+##  Fiscal code  
+
+please use below path to find fiscal code
+
+* cd server\controllers\apiv1\fiscal.js
 
 
 ## local API for fiscal code generator
-http://localhost:3000/api/apiv1/mydrive/get_fiscal_code?surnameInput=kodadala&nameInput=praveen&DOBInput=19/10/1994&genderInput=M
+http://localhost:3000/api/apiv1/fiscal/get_fiscal_code?surname=kodadala&name=praveen&dob=19/10/1994&gender=m
+
+
+* please provide the detatils in url
 
 ## server API for fiscal code generator
-https://hidden-oasis-49366.herokuapp.com/api/apiv1/mydrive/get_fiscal_code?surnameInput=kodadala&nameInput=praveen&DOBInput=19/10/1994&genderInput=M
+https://hidden-oasis-49366.herokuapp.com/api/apiv1/fiscal/get_fiscal_code?surname=kodadala&name=praveen&dob=19/10/1994&gender=m
 
 
 

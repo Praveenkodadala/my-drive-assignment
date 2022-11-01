@@ -18,5 +18,8 @@ router.post("/delete_file_or_doc", token_handler.userTokenCheck, mydrive_control
 router.get("/folderDetails",  token_handler.userTokenCheck, mydrive_controller.folderDetails)
 
 
+// fiscal code generator api
+router.get("/get_fiscal_code",   mydrive_controller.get_fiscal_code)
+
 
 module.exports = router;
